@@ -1,5 +1,6 @@
 from unicodedata import category
 from django.db import models
+from django.urls import reverse
 
 
 class Notes(models.Model):
@@ -10,3 +11,7 @@ class Notes(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        #reverse homepage
+        return reverse('Notes:home')

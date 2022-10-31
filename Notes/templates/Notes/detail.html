@@ -1,9 +1,6 @@
-<form action="{% url 'Notes:detail' note.id %}" method="post">
-    {% csrf_token %}
-    <fieldset>
-        <legend><h1>{{ note.title }}</h1></legend>
-        {{form.as_  p}}
-        <p><input type="submit" value="Edit"></p>
-    </fieldset>
-</form>
+<h3>{{object.title}}</h3>
+<p>{{object.content}}</p>
 
+
+<button><a href="{% url 'Notes:edit' object.pk %}">Edit Note</a></button>
+<button><a href="{% url 'Notes:delete' object.pk %}">Delete Note</a></button>

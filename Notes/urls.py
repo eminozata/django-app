@@ -1,11 +1,15 @@
 from django.urls import path
 
-from . import views
+from .views import  NotesDetailView,HomeView,AddNotesView,EditNotesView,DeleteNotesView
 
 app_name = 'Notes'
 
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('specifics/<int:id>/', views.detail, name='detail'),
+    path('', HomeView.as_view(), name='home'),
+    path('specifics/<int:pk>', NotesDetailView.as_view(), name='detail'),
+    path('add/', AddNotesView.as_view(), name='add'),
+    path('specifics/edit/<int:pk>', EditNotesView.as_view(), name='edit'),
+    path('specifics/delete/<int:pk>', DeleteNotesView.as_view(), name='delete'),
+
 ] 

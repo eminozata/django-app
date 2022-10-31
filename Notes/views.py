@@ -2,31 +2,36 @@ from multiprocessing import context
 from django.shortcuts import render,get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
-
+from django.views.generic import UpdateView,DetailView,ListView,CreateView,DeleteView, DeleteView
 from django.http import Http404
+
+from django.urls import reverse_lazy
+
+
+
 
 from .models import Notes
 
 
-def index(request):
-    latest_notes_list = Notes.objects.order_by('-date')[:10]
-    context = {'latest_notes_list': latest_notes_list}
-    return render(request, 'Notes/index.html', context)
+class HomeView(ListView):
+    model = Notes
+    template_name = 'Notes/index.html'
 
-def detail(request, id):
-    note = get_object_or_404(Notes, pk=id)
-    return render(request, 'Notes/detail.html', {'note': note})
+class NotesDetailView(DetailView):
+    model = Notes
+    template_name = 'Notes/detail.html'
 
-def edit(request):
-    note = get_object_or_404(Notes, pk=id)
-    try:
-        content = note.choice_set.get(pk=request.POST['content'])
-    except (KeyError, Notes.DoesNotExist):
-        # Redisplay the question voting form.
-        return render(request, 'Notes/detail.html', {
-            'note': note,
-            'error_message': "You didn't edit a note.",
-        })
-    else:
-        content.save()
-        return HttpResponseRedirect(reverse('Notes:detail', args=(note.id,)))
+class AddNotesView(CreateView):
+    model = Notes
+    template_name = 'Notes/add.html'
+    fields = '__all__'
+
+class EditNotesView(UpdateView):
+    model = Notes
+    template_name = 'Notes/edit.html'
+    fields = '__all__'
+
+class DeleteNotesView(DeleteView):
+    model = Notes
+    template_name = 'Notes/delete.html'
+    success_url=  reverse_lazy('Notes:home')

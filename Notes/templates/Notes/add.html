@@ -1,0 +1,6 @@
+<h3>ADD NOTE</h3>
+<form action="/notes/add/" method="POST">
+{% csrf_token %}
+{{form.as_p}}
+<input type="submit" value="Add Note">
+</form>
